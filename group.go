@@ -3,7 +3,7 @@ package adsi
 import (
 	"github.com/scjalliance/comshim"
 
-	"gopkg.in/adsi.v0/api"
+	"github.com/continuum-nilesh-akhade/adsi/api"
 )
 
 // Group provides access to Active Directory groups.

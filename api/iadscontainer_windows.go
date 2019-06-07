@@ -6,10 +6,10 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/go-ole/go-ole"
+	"github.com/continuum-nilesh-akhade/adsi/comiid"
+	ole "github.com/go-ole/go-ole"
 	"github.com/google/uuid"
 	"github.com/scjalliance/comutil"
-	"gopkg.in/adsi.v0/comiid"
 )
 
 // NewIADsContainer returns a new instance of the IADsContainer

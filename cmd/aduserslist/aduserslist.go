@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	adsi "gopkg.in/adsi.v0"
+	"github.com/continuum-nilesh-akhade/adsi"
 )
 
 func main() {
@@ -58,7 +58,7 @@ func printUsers(parent *adsi.Object) {
 				fmt.Println(user.Description())
 			}
 		}
-		fmt.Printf("\n%s %s", name, class)
+		fmt.Printf("\n%s %s ", name, class)
 		i++
 	}
 }

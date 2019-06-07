@@ -10,9 +10,9 @@ import (
 	"github.com/scjalliance/comshim"
 	"github.com/scjalliance/comutil"
 	"gopkg.in/adsi.v0/adspath"
-	"gopkg.in/adsi.v0/api"
+	"github.com/continuum-nilesh-akhade/adsi/api"
 	"gopkg.in/adsi.v0/comclsid"
-	"gopkg.in/adsi.v0/comiid"
+	"github.com/continuum-nilesh-akhade/adsi/comiid"
 )
 
 type namespace struct {

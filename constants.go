@@ -3,7 +3,7 @@ package adsi
 import (
 	"errors"
 
-	"gopkg.in/adsi.v0/api"
+	"github.com/continuum-nilesh-akhade/adsi/api"
 )
 
 var (

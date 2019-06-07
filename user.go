@@ -1,8 +1,8 @@
 package adsi
 
 import (
+	"github.com/continuum-nilesh-akhade/adsi/api"
 	"github.com/scjalliance/comshim"
-	"gopkg.in/adsi.v0/api"
 )
 
 // User provides access to Active Directory users.
