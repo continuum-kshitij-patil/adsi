@@ -34,3 +34,25 @@ func (u *User) Close() {
 	u.object.iface = nil
 	u.iface = nil
 }
+
+// PasswordRequired retrieves the attribute of the user
+func (u *User) PasswordRequired() (passReq bool, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return false, ErrClosed
+	}
+	passReq, err = u.iface.PasswordRequired()
+	return
+}
+
+// Description retrieves the description of the user.
+func (u *User) Description() (description string, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return "", ErrClosed
+	}
+	description, err = u.iface.Description()
+	return
+}
