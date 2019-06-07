@@ -50,15 +50,26 @@ func printUsers(parent *adsi.Object) {
 			log.Fatal(err)
 		}
 		if class == "user" {
-			//list user attributes
 			user, err := child.ToUser()
 			if err != nil {
 				log.Fatal(err)
 			} else {
-				fmt.Println(user.Description())
+				//list user attributes
+				fullName, _ := user.FullName()
+				fmt.Printf("Username: %v\n", fullName)
+				passReq, _ := user.PasswordRequired()
+				fmt.Printf("PasswordRequired: %v\n", passReq)
+				accDisabled, _ := user.AccountDisabled()
+				fmt.Printf("AccountDisabled: %v\n", accDisabled)
+				accLocked, _ := user.IsAccountLocked()
+				fmt.Printf("IsAccountLocked: %v\n", accLocked)
+				passMinLen, _ := user.PasswordMinimumLength()
+				fmt.Printf("PasswordMinimumLength: %v\n", passMinLen)
+				reqUniqPass, _ := user.RequireUniquePassword()
+				fmt.Printf("RequireUniquePassword: %v\n", reqUniqPass)
 			}
 		}
-		fmt.Printf("\n%s %s ", name, class)
+		fmt.Printf("\n%s %s \n", name, class)
 		i++
 	}
 }

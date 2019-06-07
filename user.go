@@ -35,14 +35,14 @@ func (u *User) Close() {
 	u.iface = nil
 }
 
-// PasswordRequired retrieves the attribute of the user
-func (u *User) PasswordRequired() (passReq bool, err error) {
+// FullName retrieves the FullName of the user.
+func (u *User) FullName() (fullName string, err error) {
 	u.m.Lock()
 	defer u.m.Unlock()
 	if u.closed() {
-		return false, ErrClosed
+		return "", ErrClosed
 	}
-	passReq, err = u.iface.PasswordRequired()
+	fullName, err = u.iface.FullName()
 	return
 }
 
@@ -54,5 +54,60 @@ func (u *User) Description() (description string, err error) {
 		return "", ErrClosed
 	}
 	description, err = u.iface.Description()
+	return
+}
+
+// PasswordRequired retrieves the attribute of the user
+func (u *User) PasswordRequired() (passReq bool, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return false, ErrClosed
+	}
+	passReq, err = u.iface.PasswordRequired()
+	return
+}
+
+// AccountDisabled retrieves the attribute of the user
+func (u *User) AccountDisabled() (accDisabled bool, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return false, ErrClosed
+	}
+	accDisabled, err = u.iface.AccountDisabled()
+	return
+}
+
+// IsAccountLocked retrieves the attribute of the user
+func (u *User) IsAccountLocked() (accLocked bool, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return false, ErrClosed
+	}
+	accLocked, err = u.iface.IsAccountLocked()
+	return
+}
+
+// RequireUniquePassword retrieves the attribute of the user
+func (u *User) RequireUniquePassword() (reqUniqPass bool, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return false, ErrClosed
+	}
+	reqUniqPass, err = u.iface.RequireUniquePassword()
+	return
+}
+
+// PasswordMinimumLength retrieves the attribute of the user
+func (u *User) PasswordMinimumLength() (reqUniqPass int64, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return 0, ErrClosed
+	}
+	reqUniqPass, err = u.iface.PasswordMinimumLength()
 	return
 }
