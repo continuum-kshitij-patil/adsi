@@ -49,15 +49,15 @@ func printUsers(parent *adsi.Object) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		// if class == "user" {
-		// 	//list user attributes
-		// 	user, err := child.ToUser()
-		// 	if err != nil {
-		// 		log.Fatal(err)
-		// 	} else {
-		// 		fmt.Println(user.Description())
-		// 	}
-		// }
+		if class == "user" {
+			//list user attributes
+			user, err := child.ToUser()
+			if err != nil {
+				log.Fatal(err)
+			} else {
+				fmt.Println(user.Description())
+			}
+		}
 		fmt.Printf("\n%s %s", name, class)
 		i++
 	}
