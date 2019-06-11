@@ -124,3 +124,33 @@ func (v *IADsUser) PasswordMinimumLength() (minPassLen int64, err error) {
 		return 0, convertHresultToError(hr)
 	}
 }
+
+// LastLogin field
+func (v *IADsUser) LastLogin() (lastLoginDate int64, err error) {
+	hr, _, _ := syscall.Syscall(
+		uintptr(v.VTable().LastLogin),
+		2,
+		uintptr(unsafe.Pointer(v)),
+		uintptr(unsafe.Pointer(&lastLoginDate)),
+		0)
+	if hr == 0 {
+		return
+	} else {
+		return 0, convertHresultToError(hr)
+	}
+}
+
+// PasswordExpirationDate field
+func (v *IADsUser) PasswordExpirationDate() (passExpDate int64, err error) {
+	hr, _, _ := syscall.Syscall(
+		uintptr(v.VTable().PasswordExpirationDate),
+		2,
+		uintptr(unsafe.Pointer(v)),
+		uintptr(unsafe.Pointer(&passExpDate)),
+		0)
+	if hr == 0 {
+		return
+	} else {
+		return 0, convertHresultToError(hr)
+	}
+}

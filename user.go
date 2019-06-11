@@ -2,6 +2,7 @@ package adsi
 
 import (
 	"github.com/continuum-nilesh-akhade/adsi/api"
+	ole "github.com/go-ole/go-ole"
 	"github.com/scjalliance/comshim"
 )
 
@@ -110,4 +111,49 @@ func (u *User) PasswordMinimumLength() (reqUniqPass int64, err error) {
 	}
 	reqUniqPass, err = u.iface.PasswordMinimumLength()
 	return
+}
+
+// LastLogin retrieves the attribute of the user
+//TODO: Convert int64 to valid Time and change return type to time.Time
+func (u *User) LastLogin() (lastLogin int64, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return 0, ErrClosed
+	}
+	lastLogin, err = u.iface.LastLogin()
+	if err != nil {
+		return
+	}
+	return lastLogin, nil
+}
+
+// PasswordExpirationDate retrieves the attribute of the user
+//TODO: Convert int64 to valid Time and change return type to time.Time
+func (u *User) PasswordExpirationDate() (passExp int64, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return 0, ErrClosed
+	}
+	passExp, err = u.iface.PasswordExpirationDate()
+	if err != nil {
+		return
+	}
+	return passExp, nil
+}
+
+// Get retrieves the property value of the user
+//TODO: Add separate functions to convert ole.VARIANT to go types
+func (u *User) Get(name string) (val *ole.VARIANT, err error) {
+	u.m.Lock()
+	defer u.m.Unlock()
+	if u.closed() {
+		return nil, ErrClosed
+	}
+	val, err = u.iface.Get(name)
+	if err != nil {
+		return
+	}
+	return val, nil
 }

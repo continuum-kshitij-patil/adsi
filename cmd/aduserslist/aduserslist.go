@@ -9,6 +9,13 @@ import (
 	"github.com/continuum-nilesh-akhade/adsi"
 )
 
+const (
+	msNPAllowDialin    = "msNPAllowDialin"
+	objectSid          = "objectSid"
+	sAMAccountName     = "sAMAccountName"
+	userAccountControl = "userAccountControl"
+)
+
 func main() {
 	flag.Parse()
 	if flag.NArg() != 1 {
@@ -50,26 +57,91 @@ func printUsers(parent *adsi.Object) {
 			log.Fatal(err)
 		}
 		if class == "user" {
+			fmt.Printf("\n%v-> %s %s \n", i, name, class)
 			user, err := child.ToUser()
 			if err != nil {
 				log.Fatal(err)
 			} else {
 				//list user attributes
-				fullName, _ := user.FullName()
-				fmt.Printf("Username: %v\n", fullName)
-				passReq, _ := user.PasswordRequired()
-				fmt.Printf("PasswordRequired: %v\n", passReq)
-				accDisabled, _ := user.AccountDisabled()
-				fmt.Printf("AccountDisabled: %v\n", accDisabled)
-				accLocked, _ := user.IsAccountLocked()
-				fmt.Printf("IsAccountLocked: %v\n", accLocked)
-				passMinLen, _ := user.PasswordMinimumLength()
-				fmt.Printf("PasswordMinimumLength: %v\n", passMinLen)
-				reqUniqPass, _ := user.RequireUniquePassword()
-				fmt.Printf("RequireUniquePassword: %v\n", reqUniqPass)
+				fullName, err := user.FullName()
+				if err != nil {
+					fmt.Printf("IADsUser.FullName() err: %v\n", err)
+				} else {
+					fmt.Printf("IADsUser.FullName(): %v\n", fullName)
+				}
+				passReq, err := user.PasswordRequired()
+				if err != nil {
+					fmt.Printf("IADsUser.PasswordRequired() err: %v\n", err)
+				} else {
+					fmt.Printf("IADsUser.PasswordRequired(): %v\n", passReq)
+				}
+				accDisabled, err := user.AccountDisabled()
+				if err != nil {
+					fmt.Printf("IADsUser.AccountDisabled() err: %v\n", err)
+				} else {
+					fmt.Printf("IADsUser.AccountDisabled(): %v\n", accDisabled)
+				}
+				accLocked, err := user.IsAccountLocked()
+				if err != nil {
+					fmt.Printf("IADsUser.IsAccountLocked() err: %v\n", err)
+				} else {
+					fmt.Printf("IADsUser.IsAccountLocked(): %v\n", accLocked)
+				}
+				passMinLen, err := user.PasswordMinimumLength()
+				if err != nil {
+					fmt.Printf("IADsUser.PasswordMinimumLength() err: %v\n", err)
+				} else {
+					fmt.Printf("IADsUser.PasswordMinimumLength(): %v\n", passMinLen)
+				}
+				reqUniqPass, err := user.RequireUniquePassword()
+				if err != nil {
+					fmt.Printf("IADsUser.RequireUniquePassword() err: %v\n", err)
+				} else {
+					fmt.Printf("IADsUser.RequireUniquePassword(): %v\n", reqUniqPass)
+				}
+				lastLogin, err := user.LastLogin()
+				if err != nil {
+					fmt.Printf("IADsUser.LastLogin() err: %v\n", err)
+				} else {
+					fmt.Printf("IADsUser.LastLogin(): %v\n", lastLogin)
+				}
+				passExpDate, err := user.PasswordExpirationDate()
+				if err != nil {
+					fmt.Printf("IADsUser.PasswordExpirationDate() err: %v\n", err)
+				} else {
+					fmt.Printf("IADsUser.PasswordExpirationDate(): %v\n", passExpDate)
+				}
+
+				propValue, err := user.Get(msNPAllowDialin)
+				if err != nil {
+					fmt.Printf("IADs.Get(\"%v\") err: %v\n", msNPAllowDialin, err)
+				} else {
+					fmt.Printf("IADs.Get(\"%v\"): %v\n", msNPAllowDialin, propValue)
+				}
+				propValue, err = user.Get(objectSid)
+				if err != nil {
+					fmt.Printf("IADs.Get(\"%v\") err: %v\n", objectSid, err)
+				} else {
+					fmt.Printf("IADs.Get(\"%v\"): %v\n", objectSid, propValue)
+				}
+				propValue, err = user.Get(sAMAccountName)
+				if err != nil {
+					fmt.Printf("IADs.Get(\"%v\") err: %v\n", sAMAccountName, err)
+				} else {
+					fmt.Printf("IADs.Get(\"%v\"): %v\n", sAMAccountName, propValue)
+				}
+				propValue, err = user.Get(userAccountControl)
+				if err != nil {
+					fmt.Printf("IADs.Get(\"%v\") err: %v\n", userAccountControl, err)
+				} else {
+					fmt.Printf("IADs.Get(\"%v\"): %v\n", userAccountControl, propValue)
+				}
 			}
 		}
-		fmt.Printf("\n%s %s \n", name, class)
 		i++
+		// if i > 10 {
+		// 	fmt.Println("\n--------------10 users are enough----------------------")
+		// 	break
+		// }
 	}
 }
