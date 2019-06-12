@@ -126,7 +126,7 @@ func (v *IADsUser) PasswordMinimumLength() (minPassLen int64, err error) {
 }
 
 // LastLogin field
-func (v *IADsUser) LastLogin() (lastLoginDate int64, err error) {
+func (v *IADsUser) LastLogin() (lastLoginDate *IADsLargeInteger, err error) {
 	hr, _, _ := syscall.Syscall(
 		uintptr(v.VTable().LastLogin),
 		2,
@@ -136,7 +136,7 @@ func (v *IADsUser) LastLogin() (lastLoginDate int64, err error) {
 	if hr == 0 {
 		return
 	} else {
-		return 0, convertHresultToError(hr)
+		return nil, convertHresultToError(hr)
 	}
 }
 

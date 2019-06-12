@@ -121,11 +121,16 @@ func (u *User) LastLogin() (lastLogin int64, err error) {
 	if u.closed() {
 		return 0, ErrClosed
 	}
-	lastLogin, err = u.iface.LastLogin()
+	largeInt, err := u.iface.LastLogin()
 	if err != nil {
 		return
 	}
-	return lastLogin, nil
+
+	lastLogin, err = largeInt.Value()
+	if err != nil {
+		return
+	}
+	return
 }
 
 // PasswordExpirationDate retrieves the attribute of the user

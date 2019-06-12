@@ -23,7 +23,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	adsiObject, err := adsi.Open("LDAP://" + flag.Arg(0))
+	adsiObject, err := adsi.Open(flag.Arg(0)) // use LDAP: for root LDAP path
+	//TODO:Add filter &((objectCategory=person)(objectClass=user))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -99,12 +100,12 @@ func printUsers(parent *adsi.Object) {
 				} else {
 					fmt.Printf("IADsUser.RequireUniquePassword(): %v\n", reqUniqPass)
 				}
-				lastLogin, err := user.LastLogin()
-				if err != nil {
-					fmt.Printf("IADsUser.LastLogin() err: %v\n", err)
-				} else {
-					fmt.Printf("IADsUser.LastLogin(): %v\n", lastLogin)
-				}
+				// lastLogin, err := user.LastLogin()
+				// if err != nil {
+				// 	fmt.Printf("IADsUser.LastLogin() err: %v\n", err)
+				// } else {
+				// 	fmt.Printf("IADsUser.LastLogin(): %v\n", lastLogin)
+				// }
 				passExpDate, err := user.PasswordExpirationDate()
 				if err != nil {
 					fmt.Printf("IADsUser.PasswordExpirationDate() err: %v\n", err)
@@ -116,32 +117,32 @@ func printUsers(parent *adsi.Object) {
 				if err != nil {
 					fmt.Printf("IADs.Get(\"%v\") err: %v\n", msNPAllowDialin, err)
 				} else {
-					fmt.Printf("IADs.Get(\"%v\"): %v\n", msNPAllowDialin, propValue)
+					fmt.Printf("IADs.Get(\"%v\"): %v\n", msNPAllowDialin, propValue.Value())
 				}
 				propValue, err = user.Get(objectSid)
 				if err != nil {
 					fmt.Printf("IADs.Get(\"%v\") err: %v\n", objectSid, err)
 				} else {
-					fmt.Printf("IADs.Get(\"%v\"): %v\n", objectSid, propValue)
+					fmt.Printf("IADs.Get(\"%v\"): %v\n", objectSid, propValue.Value())
 				}
 				propValue, err = user.Get(sAMAccountName)
 				if err != nil {
 					fmt.Printf("IADs.Get(\"%v\") err: %v\n", sAMAccountName, err)
 				} else {
-					fmt.Printf("IADs.Get(\"%v\"): %v\n", sAMAccountName, propValue)
+					fmt.Printf("IADs.Get(\"%v\"): %v\n", sAMAccountName, propValue.Value())
 				}
 				propValue, err = user.Get(userAccountControl)
 				if err != nil {
 					fmt.Printf("IADs.Get(\"%v\") err: %v\n", userAccountControl, err)
 				} else {
-					fmt.Printf("IADs.Get(\"%v\"): %v\n", userAccountControl, propValue)
+					fmt.Printf("IADs.Get(\"%v\"): %v\n", userAccountControl, propValue.Value())
 				}
 			}
 		}
 		i++
-		// if i > 10 {
-		// 	fmt.Println("\n--------------10 users are enough----------------------")
-		// 	break
-		// }
+		if i > 10 {
+			fmt.Println("\n--------------10 users are enough----------------------")
+			break
+		}
 	}
 }
