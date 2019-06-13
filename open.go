@@ -156,3 +156,23 @@ func OpenComputerSC(path, user, password string, flags uint32) (computer *Comput
 	defer c.Close()
 	return c.OpenComputerSC(path, user, password, flags)
 }
+
+// OpenDirectorySearch opens directory search object
+func OpenDirectorySearch(path string) (directorySearch *DirectorySearch, err error) {
+	c, err := NewClient()
+	if err != nil {
+		return nil, err
+	}
+	defer c.Close()
+	return c.OpenDirectorySearch(path)
+}
+
+//OpenDirectorySearchSC opens directory search directorySearchect
+func OpenDirectorySearchSC(path, user, password string, flags uint32) (directorySearch *DirectorySearch, err error) {
+	c, err := NewClient()
+	if err != nil {
+		return nil, err
+	}
+	defer c.Close()
+	return c.OpenDirectorySearchSC(path, user, password, flags)
+}

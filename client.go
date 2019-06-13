@@ -5,14 +5,14 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/go-ole/go-ole"
+	"github.com/continuum-nilesh-akhade/adsi/api"
+	"github.com/continuum-nilesh-akhade/adsi/comiid"
+	ole "github.com/go-ole/go-ole"
 	"github.com/google/uuid"
 	"github.com/scjalliance/comshim"
 	"github.com/scjalliance/comutil"
 	"gopkg.in/adsi.v0/adspath"
-	"github.com/continuum-nilesh-akhade/adsi/api"
 	"gopkg.in/adsi.v0/comclsid"
-	"github.com/continuum-nilesh-akhade/adsi/comiid"
 )
 
 type namespace struct {
@@ -289,6 +289,20 @@ func (c *Client) OpenComputerSC(path, user, password string, flags uint32) (comp
 	}
 	iface := (*api.IADsComputer)(unsafe.Pointer(idispatch))
 	computer = NewComputer(iface)
+	return
+}
+
+func (c *Client) OpenDirectorySearch(path string) (directorysearch *DirectorySearch, err error) {
+	return c.OpenDirectorySearchSC(path, "", "", c.Flags())
+}
+
+func (c *Client) OpenDirectorySearchSC(path, user, password string, flags uint32) (directorysearch *DirectorySearch, err error) {
+	idispatch, err := c.OpenInterfaceSC(path, user, password, flags, comiid.IDirectorySearch)
+	if err != nil {
+		return nil, err
+	}
+	iface := (*api.IDirectorySearch)(unsafe.Pointer(idispatch))
+	directorysearch = NewDirectorySearch(iface)
 	return
 }
 
